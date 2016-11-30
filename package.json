@@ -1,0 +1,31 @@
+{
+  "name": "babeschat",
+  "version": "1.0.0",
+  "description": "i am a yopro",
+  "main": "index.js",
+  "scripts": {
+    "client": "budo . -d --serve bundle.js --live",
+    "server": "node server.js",
+    "start": "concurrently --kill-others \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bradymat/babeschat"
+  },
+  "author": "bradymat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bradymat/babeschat/issues"
+  },
+  "homepage": "https://github.com/bradymat/babeschat",
+  "dependencies": {
+    "budo": "^9.2.2",
+    "clone": "^2.1.0",
+    "concurrently": "^3.1.0",
+    "express": "^4.14.0",
+    "redux": "^3.6.0",
+    "socket.io": "^1.7.1",
+    "socket.io-client": "^1.7.1",
+    "yo-yo": "^1.3.1"
+  }
+}
