@@ -20,7 +20,7 @@ module.exports = (state, action) => {
       return newState
     case 'TURN_ACTION':
       const cell = newState.stateBoard[payload]
-      console.log(cell);
+      console.log(cell)
       for (var i = cell.length-1; i >= 0; i--) {
         if(cell[i].empty){
           cell[i].empty = false
@@ -29,6 +29,9 @@ module.exports = (state, action) => {
         }
       }
       newState.playerTurn = !newState.playerTurn
+      return newState
+    case 'STORE_BOARD':
+      newState.stateBoard = payload
       return newState
     default:
       return newState

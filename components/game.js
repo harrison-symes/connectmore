@@ -9,15 +9,19 @@ function CreateGame (dispatch) {
       dispatch({type: 'STORE_MESSAGE', payload: msg})
     })
   }
+  function listenForTurn(){
+    socket.on('game', (column) => {
+      dispatch({type: 'TURN_ACTION', payload: parseInt(column)})
+
+    })
+  }
   function connected(){
     socket.on('server', (data) => {
     })
   }
   listenForMessages()
+  listenForTurn()
 
-  function handleCounter (column) {
-    dispatch({type: 'TURN_ACTION', payload: parseInt(column)})
-  }
   return (state) => {
     const { title, messages, stateBoard } = state
     return yo`
@@ -38,9 +42,16 @@ function CreateGame (dispatch) {
       </div>
       `
     }
+    function handleCounter (column) {
+      console.log('hello im fucked')
+      sendTurn(column)
 
+    }
     function sendMessage(e){
       socket.emit('chat', e.target.value)
+    }
+    function sendTurn(column){
+      socket.emit('game', column)
     }
     function clearMessageOnSubmit(e) {
       if(e.which == 13)e.currentTarget.value = ''
