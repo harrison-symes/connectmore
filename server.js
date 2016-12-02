@@ -8,7 +8,7 @@ app.get('/', function (req, res) {
 })
 
 io.on('connection', (socket) => {
-  socket.emit('server', 'connected to babes')
+  socket.emit('server', 'Connected to connect more')
   socket.on('chat', (msg) => {
     console.log(msg)
     io.emit('chat', msg)
