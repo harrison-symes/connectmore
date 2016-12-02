@@ -2,11 +2,13 @@ var { createStore } = require('redux')
 var { update } = require('yo-yo')
 var reducer = require('./reducer')
 
-var CreateApp = require('./components/app')
+var CreateGame = require('./components/game')
 
 var initialState = {
-  title: 'babeschat',
-  messages: []
+  title: 'Connect More',
+  playerTurn: false,
+  messages: [],
+  stateBoard: []
 }
 
 var { getState, dispatch, subscribe } = createStore(reducer, initialState)
@@ -15,10 +17,12 @@ var main = document.querySelector('main')
 var initView = document.createElement('div')
 main.appendChild(initView)
 
-var App = CreateApp(dispatch)
+dispatch({type: 'CREATE_BOARD'})
+
+var Game = CreateGame(dispatch)
 
 subscribe(() => {
-  var newView = App(getState())
+  var newView = Game(getState())
   update(initView, newView)
 })
 
