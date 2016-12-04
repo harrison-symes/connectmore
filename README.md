@@ -1,6 +1,6 @@
-# babeschat
+# Connect More
 
-i am a yopro
+client side connect four one night colab with [Harrison](https://github.com/harrison-symes) 
 
 ### install
 
@@ -10,7 +10,7 @@ cd babeschat
 npm install
 ```
 
-## development
+### development
 
 ```
 npm start
