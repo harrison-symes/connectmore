@@ -1,6 +1,6 @@
 # Connect More
 
-client side connect four one night colab with [Harrison](https://github.com/harrison-symes) 
+client side connect four with sockets, one night colab with [Harrison](https://github.com/harrison-symes) 
 
 ### install
 
