@@ -1,26 +1,37 @@
 var yo = require('yo-yo')
 var io = require('socket.io-client')
 
-socket = io('http://localhost:3000')
+socket = io('http://192.168.1.84:3000')
 
 function CreateGame (dispatch) {
+  function connected(){
+    socket.on('server', (data) => {
+      if(data != 'connected') dispatch({type: 'TURN_ACTION', payload: data})
+    })
+  }
   function listenForMessages(){
     socket.on('chat', (msg) => {
+      if(msg == 'CLR'){
+        socket.emit('clear', 'cleared')
+      }
       dispatch({type: 'STORE_MESSAGE', payload: msg})
     })
   }
   function listenForTurn(){
-    socket.on('game', (column) => {
-      dispatch({type: 'TURN_ACTION', payload: parseInt(column)})
+    socket.on('game', (data) => {
+      dispatch({type: 'TURN_ACTION', payload: data})
 
     })
   }
-  function connected(){
-    socket.on('server', (data) => {
+  function listenForClear(){
+    socket.on('clear', (e) => {
+      dispatch({type: 'CREATE_BOARD'})
     })
   }
+  connected()
   listenForMessages()
   listenForTurn()
+  listenForClear()
 
   return (state) => {
     const { title, messages, stateBoard } = state
@@ -28,9 +39,15 @@ function CreateGame (dispatch) {
       <div>
         <h1>${title}</h1>
         <hr>
-        ${renderBoard()}
-        ${renderMessages(messages)}
-        <input id='message' onchange=${sendMessage} onkeyup=${clearMessageOnSubmit} >
+        <div class='container'>
+          <div class='board'>
+            ${renderBoard()}
+          </div>
+          <div class='messages'>
+            ${renderMessages(messages)}
+          </div>
+          <input class='messageInput' onchange=${sendMessage} onkeyup=${clearMessageOnSubmit} >
+        </div>
       </div>
     `
     function renderMessages (messages) {
@@ -43,7 +60,6 @@ function CreateGame (dispatch) {
       `
     }
     function handleCounter (column) {
-      console.log('hello im fucked')
       sendTurn(column)
 
     }
@@ -51,7 +67,7 @@ function CreateGame (dispatch) {
       socket.emit('chat', e.target.value)
     }
     function sendTurn(column){
-      socket.emit('game', column)
+      socket.emit('game', {state, column})
     }
     function clearMessageOnSubmit(e) {
       if(e.which == 13)e.currentTarget.value = ''

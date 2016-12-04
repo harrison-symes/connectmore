@@ -1,3 +1,5 @@
+const checkWinCell = require('./winFunctions/checkWinCell')
+
 module.exports = (state, action) => {
   var newState = require('clone')(state)
   var { type, payload } = action
@@ -19,15 +21,19 @@ module.exports = (state, action) => {
       newState.stateBoard = board
       return newState
     case 'TURN_ACTION':
-      const cell = newState.stateBoard[payload]
-      console.log(cell)
-      for (var i = cell.length-1; i >= 0; i--) {
-        if(cell[i].empty){
-          cell[i].empty = false
-          cell[i].counter = newState.playerTurn
+      newState = payload.state
+      const column = newState.stateBoard[payload.column]
+      console.log(column)
+      for (var i = column.length-1; i >= 0; i--) {
+        if(column[i].empty){
+          column[i].empty = false
+          column[i].counter = newState.playerTurn
+          //checkWin here
+          checkWinCell(newState.stateBoard, payload.column, i)
           break
         }
       }
+
       newState.playerTurn = !newState.playerTurn
       return newState
     case 'STORE_BOARD':
