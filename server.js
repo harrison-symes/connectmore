@@ -6,17 +6,20 @@ var io = require('socket.io')(http)
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html')
 })
-var board = []
-io.on('connection', (socket) => {
-  socket.emit('server', 'connected')
-  socket.on('game', (newBoard) => {
-    board = newBoard
-    console.log(newBoard)
-    io.emit('game', newBoard)
+var globalState = 'connected'
+io.on('connection', (client) => {
+  console.log(globalState);
+  client.emit('server', globalState)
+  client.on('game', (data) => {
+    globalState = data
+    io.emit('game', data)
   })
-  socket.on('chat', (msg) => {
-    console.log(msg)
+  client.on('chat', (msg) => {
     io.emit('chat', msg)
+  })
+  client.on('clear', (e) => {
+    console.log('clearing');
+    io.emit('clear', e)
   })
 })
 
