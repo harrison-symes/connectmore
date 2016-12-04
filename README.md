@@ -5,8 +5,8 @@ client side connect four one night colab with [Harrison](https://github.com/harr
 ### install
 
 ```
-git clone https://github.com/bradymat/babeschat
-cd babeschat
+git clone https://github.com/bradymat/connectmore
+cd connectmore
 npm install
 ```
 
