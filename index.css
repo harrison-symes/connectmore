@@ -37,3 +37,11 @@ body{
   width: 574px;
   height: 50px;
 }
+
+.yellowTurn {
+  background-color: yellow;
+}
+
+.redTurn {
+  background-color: red;
+}

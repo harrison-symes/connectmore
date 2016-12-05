@@ -8,7 +8,7 @@ app.get('/', function (req, res) {
 })
 var globalState = 'connected'
 io.on('connection', (client) => {
-  console.log(globalState);
+  console.log(io);
   client.emit('server', globalState)
   client.on('game', (data) => {
     globalState = data
@@ -18,7 +18,7 @@ io.on('connection', (client) => {
     io.emit('chat', msg)
   })
   client.on('clear', (e) => {
-    console.log('clearing');
+    globalState = 'connected'
     io.emit('clear', e)
   })
 })

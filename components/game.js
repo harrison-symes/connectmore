@@ -13,7 +13,7 @@ function CreateGame (dispatch) {
     socket.on('chat', (msg) => {
       if(msg == 'CLR'){
         socket.emit('clear', 'cleared')
-      }
+      } else
       dispatch({type: 'STORE_MESSAGE', payload: msg})
     })
   }
@@ -40,6 +40,13 @@ function CreateGame (dispatch) {
         <h1>${title}</h1>
         <hr>
         <div class='container'>
+          <div class="${state.playerTurn ? 'redTurn' : 'yellowTurn'}">
+            <h1>It is ${state.playerTurn ? `Red's` : `Yellow's`} turn</h1>
+
+          </div>
+          <h2 class = ${state.playerTeam ? 'redTurn' : 'yellowTurn'}>
+            You are in ${state.playerTeam ? 'Red' : 'Yellow'} team
+          </h2>
           <div class='board'>
             ${renderBoard()}
           </div>
@@ -64,7 +71,12 @@ function CreateGame (dispatch) {
 
     }
     function sendMessage(e){
-      socket.emit('chat', e.target.value)
+      if (e.target.value == "ST red") {
+        dispatch({type: "SET_TEAM", payload: true})
+      } else if (e.target.value == "ST yellow") {
+        dispatch({type: "SET_TEAM", payload: false})
+      } else socket.emit('chat', e.target.value)
+
     }
     function sendTurn(column){
       socket.emit('game', {state, column})

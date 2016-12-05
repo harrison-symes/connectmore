@@ -7,6 +7,7 @@ var CreateGame = require('./components/game')
 var initialState = {
   title: 'Connect More',
   playerTurn: false,
+  playerTeam: false,
   messages: [],
   stateBoard: []
 }
